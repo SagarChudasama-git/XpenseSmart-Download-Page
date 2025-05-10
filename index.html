@@ -29,11 +29,7 @@
                     <img src="XpenseSmart( Main Logo).png" alt="XpenseSmart Icon" class="app-icon">
                     <div class="app-details">
                         <h1>XpenseSmart</h1>
-                        <p class="developer">XPENSESMART TECHNOLOGIES</p>
-                        <div class="metadata">
-                            <span class="file-size"><i class="fas fa-file-arrow-down"></i> 6.4 MB</span>
-                            <span class="version"><i class="fab fa-android"></i> Android 7.0+</span>
-                        </div>
+                        <p class="developer">SAGAR CHUDASAMA</p>
                     </div>
                 </div>
                 <div class="security-badge">
@@ -44,12 +40,12 @@
 
             <div class="download-section">
                 <a href="#" class="download-btn primary" id="download-btn">
-                    <i class="fas fa-download"></i>
+                    <i class="fas fa-mobile-alt"></i>
                     Download APK
                 </a>
                 <a href="#" class="download-btn secondary">
-                    <i class="fas fa-mobile-alt"></i>
-                    Download IOS (Comming Soon)
+                    <i class="fas fa-desktop"></i>
+                    Download EXE(Windows)
                 </a>
             </div>
         </div>
@@ -217,6 +213,52 @@
         </div>
     </div>
     
+    <!-- Windows Download Modal -->
+    <div class="modal" id="windows-download-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-windows"></i> Download XpenseSmart for Windows</h3>
+                <button class="close-btn" id="close-windows-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="download-info">
+                    <img src="XpenseSmart( Main Logo).png" alt="XpenseSmart Icon" class="modal-app-icon">
+                    <div class="download-details">
+                        <h4>XpenseSmart for Windows v1.1.0</h4>
+                        <p>File size: 77 MB</p>
+                        <p class="security-text"><i class="fas fa-shield-alt"></i> Virus scanned & verified safe</p>
+                    </div>
+                </div>
+                
+                <div class="download-progress">
+                    <div class="progress-label">
+                        <span id="windows-download-status">Starting download...</span>
+                        <span id="windows-download-percentage">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" id="windows-progress-bar"></div>
+                    </div>
+                </div>
+
+                <div class="download-actions">
+                    <button class="action-btn cancel-btn" id="cancel-windows-download">Cancel</button>
+                    <a href="XpenseSmart.zip" class="action-btn download-now-btn" id="windows-download-now" download style="display: none;">Download for Windows</a>
+                </div>
+                
+                <div class="download-instructions">
+                    <h4><i class="fas fa-info-circle"></i> Installation Instructions</h4>
+                    <ol>
+                        <li>Download the ZIP file by clicking the button below</li>
+                        <li>Extract the downloaded ZIP file to your desired location</li>
+                        <li>Open the extracted folder and run XpenseSmart.exe</li>
+                        <li>Follow the installation wizard to complete the setup</li>
+                        <li>Launch XpenseSmart and start managing your expenses!</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="overlay" id="overlay"></div>
     
     <script>
@@ -231,7 +273,76 @@
             const downloadPercentage = document.getElementById('download-percentage');
             const downloadNowBtn = document.getElementById('download-now');
             
+            // Windows download elements
+            const windowsDownloadBtn = document.querySelector('.download-btn.secondary');
+            const windowsDownloadModal = document.getElementById('windows-download-modal');
+            const closeWindowsModalBtn = document.getElementById('close-windows-modal');
+            const cancelWindowsDownloadBtn = document.getElementById('cancel-windows-download');
+            const windowsProgressBar = document.getElementById('windows-progress-bar');
+            const windowsDownloadStatus = document.getElementById('windows-download-status');
+            const windowsDownloadPercentage = document.getElementById('windows-download-percentage');
+            const windowsDownloadNow = document.getElementById('windows-download-now');
+            
             let downloadInterval;
+            let windowsDownloadInterval;
+            
+            // Windows download modal functions
+            function openWindowsModal() {
+                windowsDownloadModal.classList.add('active');
+                overlay.classList.add('active');
+                simulateWindowsDownload();
+            }
+            
+            function closeWindowsModal() {
+                windowsDownloadModal.classList.remove('active');
+                overlay.classList.remove('active');
+                clearInterval(windowsDownloadInterval);
+                resetWindowsDownload();
+            }
+            
+            function resetWindowsDownload() {
+                windowsProgressBar.style.width = '0%';
+                windowsDownloadStatus.textContent = 'Starting download...';
+                windowsDownloadPercentage.textContent = '0%';
+                windowsDownloadNow.style.display = 'none';
+            }
+            
+            function simulateWindowsDownload() {
+                let progress = 0;
+                windowsDownloadNow.style.display = 'none';
+                
+                windowsDownloadInterval = setInterval(() => {
+                    if (progress < 100) {
+                        progress += Math.floor(Math.random() * 5) + 1;
+                        if (progress > 100) progress = 100;
+                        
+                        windowsProgressBar.style.width = `${progress}%`;
+                        windowsDownloadPercentage.textContent = `${progress}%`;
+                        
+                        if (progress < 30) {
+                            windowsDownloadStatus.textContent = 'Connecting to server...';
+                        } else if (progress < 60) {
+                            windowsDownloadStatus.textContent = 'Downloading XpenseSmart for Windows...';
+                        } else if (progress < 90) {
+                            windowsDownloadStatus.textContent = 'Almost there...';
+                        } else {
+                            windowsDownloadStatus.textContent = 'Download complete!';
+                            windowsDownloadNow.style.display = 'block';
+                        }
+                    } else {
+                        clearInterval(windowsDownloadInterval);
+                    }
+                }, 150);
+            }
+            
+            // Event listeners for Windows download
+            windowsDownloadBtn.addEventListener('click', openWindowsModal);
+            closeWindowsModalBtn.addEventListener('click', closeWindowsModal);
+            cancelWindowsDownloadBtn.addEventListener('click', closeWindowsModal);
+            overlay.addEventListener('click', () => {
+                closeModal();
+                closeWindowsModal();
+            });
             
             function openModal() {
                 downloadModal.classList.add('active');

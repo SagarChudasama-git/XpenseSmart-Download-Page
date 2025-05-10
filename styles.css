@@ -149,12 +149,12 @@ body {
 }
 
 .download-btn.secondary {
-    background: #e3f2fd;
-    color: #2196f3;
+    background: #2196f3;
+    color: white;
 }
 
 .download-btn.secondary:hover {
-    background: #bbdefb;
+    background: #1976d2;
 }
 
 .download-btn i {
@@ -179,25 +179,21 @@ body {
 }
 
 .modal {
+    display: none;
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
-    width: 90%;
-    max-width: 550px;
-    background: white;
-    border-radius: 16px;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
     z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    width: 90%;
 }
 
 .modal.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translate(-50%, -50%) scale(1);
+    display: block;
 }
 
 .modal-header {
@@ -653,4 +649,49 @@ body {
         gap: 1rem;
         align-items: center;
     }
+}
+
+/* Windows Download Modal Specific Styles */
+#windows-download-modal .modal-header i.fa-windows {
+    color: #00A4EF;
+    margin-right: 8px;
+}
+
+#windows-download-modal .download-instructions {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+#windows-download-modal .download-instructions ol {
+    margin: 15px 0 0 20px;
+    padding: 0;
+}
+
+#windows-download-modal .download-instructions li {
+    margin-bottom: 12px;
+    line-height: 1.4;
+    color: #4a4a4a;
+}
+
+#windows-download-modal .download-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+#windows-download-modal .download-now-btn {
+    background: #00A4EF;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+#windows-download-modal .download-now-btn:hover {
+    background: #0089c9;
 }
