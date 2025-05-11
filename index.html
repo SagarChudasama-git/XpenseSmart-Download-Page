@@ -197,7 +197,7 @@
                 
                 <div class="download-actions">
                     <button class="action-btn cancel-btn" id="cancel-download">Cancel</button>
-                    <a href="XpenseSmart_v1.1.0.apk" class="action-btn download-now-btn" id="download-now" download>Download Now</a>
+                    <button class="action-btn download-now-btn" id="download-now" style="display: none; background-color: #2196f3; color: white; cursor: pointer;">Download Now</button>
                 </div>
                 
                 <div class="download-instructions">
@@ -337,13 +337,17 @@
             }
             
             // Event listeners for Windows download
-            windowsDownloadBtn.addEventListener('click', openWindowsModal);
-            closeWindowsModalBtn.addEventListener('click', closeWindowsModal);
-            cancelWindowsDownloadBtn.addEventListener('click', closeWindowsModal);
-            overlay.addEventListener('click', () => {
-                closeModal();
-                closeWindowsModal();
-            });
+            if (windowsDownloadBtn) {
+                windowsDownloadBtn.addEventListener('click', openWindowsModal);
+            }
+            
+            if (closeWindowsModalBtn) {
+                closeWindowsModalBtn.addEventListener('click', closeWindowsModal);
+            }
+            
+            if (cancelWindowsDownloadBtn) {
+                cancelWindowsDownloadBtn.addEventListener('click', closeWindowsModal);
+            }
             
             function openModal() {
                 downloadModal.classList.add('active');
@@ -367,6 +371,7 @@
             
             function simulateDownload() {
                 let progress = 0;
+                downloadNowBtn.style.display = 'none';
                 
                 downloadInterval = setInterval(() => {
                     if (progress < 100) {
@@ -392,14 +397,45 @@
                 }, 150);
             }
             
+            // Initialize download buttons
             downloadBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 openModal();
             });
             
+            downloadNowBtn.addEventListener('click', function() {
+                // Create an invisible iframe to download the file
+                let iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.src = 'XpenseSmart_v1.1.0.apk';
+                document.body.appendChild(iframe);
+                
+                // Alternative download method as fallback
+                setTimeout(function() {
+                    // Create a direct download link as backup
+                    let link = document.createElement('a');
+                    link.download = 'XpenseSmart_v1.1.0.apk';
+                    link.style.display = 'none';
+                    document.body.appendChild(link);
+                    link.click();
+                    
+                    // Clean up
+                    setTimeout(function() {
+                        document.body.removeChild(iframe);
+                        document.body.removeChild(link);
+                    }, 1000);
+                }, 500);
+            });
+            
+            // Event listeners for modal controls
             closeModalBtn.addEventListener('click', closeModal);
             cancelDownloadBtn.addEventListener('click', closeModal);
-            overlay.addEventListener('click', closeModal);
+            overlay.addEventListener('click', () => {
+                closeModal();
+                if (windowsDownloadModal && windowsDownloadModal.classList.contains('active')) {
+                    closeWindowsModal();
+                }
+            });
         });
     </script>
 
